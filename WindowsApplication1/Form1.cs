@@ -139,7 +139,7 @@ namespace WindowsApplication1
         static extern UInt32 VCI_FindUsbDevice(ref VCI_BOARD_INFO1 pInfo);
         /*------------函数描述结束---------------------------------*/
 
-        static UInt32 m_devtype = 4;//USBCAN2
+        USB_DEVICE_ID m_devtype = USB_DEVICE_ID.DEV_USBCAN2;
 
         UInt32 m_bOpen = 0;
         UInt32 m_devind = 0;
@@ -148,7 +148,9 @@ namespace WindowsApplication1
 
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[1000];
 
-        UInt32[] m_arrdevtype = new UInt32[20];
+        USB_DEVICE_ID[] m_arrdevtype = new USB_DEVICE_ID[20];
+
+        public USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
 
         public Form1()
         {
@@ -175,12 +177,12 @@ namespace WindowsApplication1
             comboBox_devtype.Items.Clear();
 
             curindex = comboBox_devtype.Items.Add("DEV_USBCAN");
-            m_arrdevtype[curindex] =  DEV_USBCAN;
+            m_arrdevtype[curindex] = USB_DEVICE_ID.DEV_USBCAN;
             //comboBox_devtype.Items[2] = "VCI_USBCAN1";
             //m_arrdevtype[2]=  VCI_USBCAN1 ;
 
             curindex = comboBox_devtype.Items.Add("DEV_USBCAN2");
-            m_arrdevtype[curindex] = DEV_USBCAN2 ;
+            m_arrdevtype[curindex] = USB_DEVICE_ID.DEV_USBCAN2;
             //comboBox_devtype.Items[3] = "VCI_USBCAN2";
             //m_arrdevtype[3]=  VCI_USBCAN2 ;
 
@@ -193,7 +195,8 @@ namespace WindowsApplication1
         {
             if (m_bOpen==1)
             {
-                VCI_CloseDevice(m_devtype, m_devind);
+                //VCI_CloseDevice(m_devtype, m_devind);
+                USB_CAN_device.CloseDevice();
             }
         }
 
@@ -201,7 +204,9 @@ namespace WindowsApplication1
         {
             if (m_bOpen==1)
             {
-                VCI_CloseDevice(m_devtype, m_devind);
+                // VCI_CloseDevice(m_devtype, m_devind);
+                USB_CAN_device.Config_CAN_Device(m_devtype, m_devind);
+                USB_CAN_device.OpenDevice();
                 m_bOpen = 0;
             }
             else
@@ -211,7 +216,7 @@ namespace WindowsApplication1
                 m_devind=(UInt32)comboBox_DevIndex.SelectedIndex;
                 m_devind = 0;
                 //                m_canind = (UInt32)comboBox_CANIndex.SelectedIndex;
-                if (VCI_OpenDevice(m_devtype, m_devind, 0) == 0)
+                if (VCI_OpenDevice((uint)m_devtype, m_devind, 0) == 0)
                 {
                     MessageBox.Show("打开设备失败,请检查设备类型和设备索引号是否正确", "错误",
                             MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -226,8 +231,8 @@ namespace WindowsApplication1
                 config.Timing1 = System.Convert.ToByte("0x" + textBox_Time1.Text, 16);
                 config.Filter = (Byte)(comboBox_Filter.SelectedIndex+1);
                 config.Mode = (Byte)comboBox_Mode.SelectedIndex;
-                VCI_InitCAN(m_devtype, m_devind, m_canind_src, ref config);
-                VCI_InitCAN(m_devtype, m_devind, m_canind_dst, ref config);
+                VCI_InitCAN((uint)m_devtype, m_devind, m_canind_src, ref config);
+                VCI_InitCAN((uint)m_devtype, m_devind, m_canind_dst, ref config);
             }
             buttonConnect.Text = m_bOpen==1?"断开":"连接";
             timer_rec.Enabled = m_bOpen==1?true:false;
@@ -237,7 +242,7 @@ namespace WindowsApplication1
         {
             UInt32 res = new UInt32();
 
-            res = VCI_Receive(m_devtype, m_devind, m_canind_dst, ref m_recobj[0],1000, 100);
+            res = VCI_Receive((uint)m_devtype, m_devind, m_canind_dst, ref m_recobj[0],1000, 100);
 
             /////////////////////////////////////
             //IntPtr[] ptArray = new IntPtr[1];
@@ -305,16 +310,16 @@ namespace WindowsApplication1
         {
             if (m_bOpen == 0)
                 return;
-            VCI_StartCAN(m_devtype, m_devind, m_canind_src);
-            VCI_StartCAN(m_devtype, m_devind, m_canind_dst);
+            VCI_StartCAN((uint)m_devtype, m_devind, m_canind_src);
+            VCI_StartCAN((uint)m_devtype, m_devind, m_canind_dst);
         }
 
         private void button_StopCAN_Click(object sender, EventArgs e)
         {
             if (m_bOpen == 0)
                 return;
-            VCI_ResetCAN(m_devtype, m_devind, m_canind_src);
-            VCI_ResetCAN(m_devtype, m_devind, m_canind_dst);
+            VCI_ResetCAN((uint)m_devtype, m_devind, m_canind_src);
+            VCI_ResetCAN((uint)m_devtype, m_devind, m_canind_dst);
         }
 
         unsafe private void button_Send_Click(object sender, EventArgs e)
@@ -348,7 +353,7 @@ namespace WindowsApplication1
             if (i++ < len - 1)
                 sendobj.Data[7] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
 
-            if(VCI_Transmit(m_devtype,m_devind,m_canind_src,ref sendobj,1)==0)
+            if(VCI_Transmit((uint)m_devtype,m_devind,m_canind_src,ref sendobj,1)==0)
             {
                 MessageBox.Show("发送失败", "错误",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -359,6 +364,112 @@ namespace WindowsApplication1
         {
             listBox_Info.Items.Clear();
         }
+
+    }
+
+    public enum USB_DEVICE_ID
+    {
+        DEV_USBCAN = 3,
+        DEV_USBCAN2 = 4
+    };
+
+    public class USB_CAN_Adaptor
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="DeviceType"></param>
+        /// <param name="DeviceInd"></param>
+        /// <param name="Reserved"></param>
+        /// <returns></returns>
+        /*------------兼容ZLG的函数描述---------------------------------*/
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_OpenDevice(UInt32 DeviceType, UInt32 DeviceInd, UInt32 Reserved);
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_CloseDevice(UInt32 DeviceType, UInt32 DeviceInd);
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_InitCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_INIT_CONFIG pInitConfig);
+
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_ReadBoardInfo(UInt32 DeviceType, UInt32 DeviceInd, ref VCI_BOARD_INFO pInfo);
+
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_GetReceiveNum(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_ClearBuffer(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
+
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_StartCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_ResetCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
+
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_Transmit(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pSend, UInt32 Len);
+
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_Receive(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pReceive, UInt32 Len, Int32 WaitTime);
+
+        /*------------其他函数描述---------------------------------*/
+
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_ConnectDevice(UInt32 DevType, UInt32 DevIndex);
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_UsbDeviceReset(UInt32 DevType, UInt32 DevIndex, UInt32 Reserved);
+        [DllImport("controlcan.dll")]
+        static extern UInt32 VCI_FindUsbDevice(ref VCI_BOARD_INFO1 pInfo);
+        /*------------函数描述结束---------------------------------*/
+
+        uint m_devtype = (uint)USB_DEVICE_ID.DEV_USBCAN2;
+        UInt32 m_devind = 0;
+        UInt32 m_canind_src = 0;
+        UInt32 m_canind_dst = 1;
+        VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
+
+        VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[1000];
+
+        UInt32[] m_arrdevtype = new UInt32[20];
+
+        public void Config_CAN_Device(USB_DEVICE_ID dev_id, uint dev_index)
+        {
+            m_devtype = (uint)dev_id;
+            m_devind = dev_index;
+        }
+
+        public void Config_CAN_TX_Dev_Index(uint src)
+        {
+            m_canind_src = src;
+        }
+
+        public void Config_CAN_RX_Dev_Index(uint dst)
+        {
+            m_canind_dst = dst;
+        }
+
+        public void Config_CAN_Param(uint access_code, uint access_mask, Byte timing0, Byte timing1, Byte filter, Byte mode)
+        {
+            config.AccCode = access_code;
+            config.AccMask = access_mask;
+            config.Timing0 = timing0;
+            config.Timing1 = timing1;
+            config.Filter = filter;
+            config.Mode = mode;
+        }
+
+        public uint CloseDevice()
+        {
+            return VCI_CloseDevice(m_devtype, m_devind);
+        }
+
+        public uint OpenDevice()
+        {
+            return VCI_OpenDevice(m_devtype, m_devind, 0);
+        }
+
+        public uint OpenCan()
+        {
+            return VCI_StartCAN(m_devtype, m_devind, m_canind_src);
+        }
+
 
     }
 }
