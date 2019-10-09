@@ -336,8 +336,14 @@ namespace WindowsApplication1
             sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
             VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
             uint sendout_obj_len = (uint) sendobj_list.Count;
-
             if (USB_CAN_device.Transmit(m_canind_src, ref sendout_obj[0], sendout_obj_len) == 0)
+            {
+                MessageBox.Show("发送失败", "错误",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            sendobj.Data[6] ^= 0xff;        // for testing multiple sendout_obj
+            sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
+            if (USB_CAN_device.Transmit(m_canind_src, ref sendobj_list) == 0)
             {
                 MessageBox.Show("发送失败", "错误",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -474,6 +480,13 @@ namespace WindowsApplication1
         public uint Transmit(uint can_index, ref VCI_CAN_OBJ obj_ref, uint obj_length)
         {
             return VCI_Transmit((uint)m_devtype, m_devind, can_index, ref obj_ref, obj_length);
+        }
+
+        public uint Transmit(uint can_index, ref List<VCI_CAN_OBJ> obj_ref_list)
+        {
+            VCI_CAN_OBJ[] obj_ref_array = obj_ref_list.ToArray();
+            uint obj_ref_len = (uint)obj_ref_list.Count;
+            return Transmit(can_index, ref obj_ref_array[0], obj_ref_len);
         }
     }
 }
