@@ -104,9 +104,6 @@ namespace WindowsApplication1
         /// <returns></returns>
         /*------------兼容ZLG的函数描述---------------------------------*/
         [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_InitCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_INIT_CONFIG pInitConfig);
-
-        [DllImport("controlcan.dll")]
         static extern UInt32 VCI_ReadBoardInfo(UInt32 DeviceType, UInt32 DeviceInd, ref VCI_BOARD_INFO pInfo);
 
         [DllImport("controlcan.dll")]
@@ -182,7 +179,7 @@ namespace WindowsApplication1
             //comboBox_devtype.Items[3] = "VCI_USBCAN2";
             //m_arrdevtype[3]=  VCI_USBCAN2 ;
 
-             comboBox_devtype.SelectedIndex = 1;
+            comboBox_devtype.SelectedIndex = 1;
             comboBox_devtype.MaxDropDownItems = comboBox_devtype.Items.Count;
 
         }
@@ -209,7 +206,7 @@ namespace WindowsApplication1
             {
                 m_devtype = m_arrdevtype[comboBox_devtype.SelectedIndex];
 
-                m_devind=(UInt32)comboBox_DevIndex.SelectedIndex;
+                m_devind=(uint)comboBox_DevIndex.SelectedIndex;
                 m_devind = 0;
                 //                m_canind = (UInt32)comboBox_CANIndex.SelectedIndex;
                 if (USB_CAN_device.OpenDevice() == 0)
@@ -220,15 +217,15 @@ namespace WindowsApplication1
                 }
 
                 m_bOpen = 1;
-                VCI_INIT_CONFIG config=new VCI_INIT_CONFIG();
-                config.AccCode=System.Convert.ToUInt32("0x" + textBox_AccCode.Text,16);
-                config.AccMask = System.Convert.ToUInt32("0x" + textBox_AccMask.Text, 16);
-                config.Timing0 = System.Convert.ToByte("0x" + textBox_Time0.Text, 16);
-                config.Timing1 = System.Convert.ToByte("0x" + textBox_Time1.Text, 16);
-                config.Filter = (Byte)(comboBox_Filter.SelectedIndex+1);
-                config.Mode = (Byte)comboBox_Mode.SelectedIndex;
-                VCI_InitCAN((uint)m_devtype, m_devind, m_canind_src, ref config);
-                VCI_InitCAN((uint)m_devtype, m_devind, m_canind_dst, ref config);
+                uint AccCode=System.Convert.ToUInt32("0x" + textBox_AccCode.Text,16);
+                uint AccMask = System.Convert.ToUInt32("0x" + textBox_AccMask.Text, 16);
+                Byte Timing0 = System.Convert.ToByte("0x" + textBox_Time0.Text, 16);
+                Byte Timing1 = System.Convert.ToByte("0x" + textBox_Time1.Text, 16);
+                Byte Filter = (Byte)(comboBox_Filter.SelectedIndex+1);
+                Byte Mode = (Byte)comboBox_Mode.SelectedIndex;
+                USB_CAN_device.Config_CAN_Param(AccCode, AccMask, Timing0, Timing1, Filter, Mode);
+                USB_CAN_device.InitCAN(m_canind_src);
+                USB_CAN_device.InitCAN(m_canind_dst);
             }
             buttonConnect.Text = m_bOpen==1?"断开":"连接";
             timer_rec.Enabled = m_bOpen==1?true:false;
@@ -416,9 +413,10 @@ namespace WindowsApplication1
         /*------------函数描述结束---------------------------------*/
 
         uint m_devtype = (uint)USB_DEVICE_ID.DEV_USBCAN2;
-        UInt32 m_devind = 0;
-        UInt32 m_canind_src = 0;
-        UInt32 m_canind_dst = 1;
+        uint m_devind = 0;
+        //uint m_canind = 0;
+        //UInt32 m_canind_src = 0;
+        //UInt32 m_canind_dst = 1;
         VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
 
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[1000];
@@ -431,15 +429,15 @@ namespace WindowsApplication1
             m_devind = dev_index;
         }
 
-        public void Config_CAN_TX_Dev_Index(uint src)
-        {
-            m_canind_src = src;
-        }
+        //public void Config_CAN_TX_Dev_Index(uint src)
+        //{
+        //    m_canind_src = src;
+        //}
 
-        public void Config_CAN_RX_Dev_Index(uint dst)
-        {
-            m_canind_dst = dst;
-        }
+        //public void Config_CAN_RX_Dev_Index(uint dst)
+        //{
+        //    m_canind_dst = dst;
+        //}
 
         public void Config_CAN_Param(uint access_code, uint access_mask, Byte timing0, Byte timing1, Byte filter, Byte mode)
         {
@@ -461,11 +459,15 @@ namespace WindowsApplication1
             return VCI_OpenDevice(m_devtype, m_devind, 0);      // last parameter is currently always 0
         }
 
-        public uint OpenCan()
+        //public uint OpenCAN()
+        //{
+            //return VCI_StartCAN(m_devtype, m_devind, m_canind);
+        //}
+
+        public uint InitCAN(uint can_index)
         {
-            return VCI_StartCAN(m_devtype, m_devind, m_canind_src);
+            //m_canind = can_index;
+            return VCI_InitCAN(m_devtype, m_devind, can_index, ref config);
         }
-
-
     }
 }
