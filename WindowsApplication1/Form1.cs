@@ -104,10 +104,6 @@ namespace WindowsApplication1
         /// <returns></returns>
         /*------------兼容ZLG的函数描述---------------------------------*/
         [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_OpenDevice(UInt32 DeviceType, UInt32 DeviceInd, UInt32 Reserved);
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_CloseDevice(UInt32 DeviceType, UInt32 DeviceInd);
-        [DllImport("controlcan.dll")]
         static extern UInt32 VCI_InitCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_INIT_CONFIG pInitConfig);
 
         [DllImport("controlcan.dll")]
@@ -216,7 +212,7 @@ namespace WindowsApplication1
                 m_devind=(UInt32)comboBox_DevIndex.SelectedIndex;
                 m_devind = 0;
                 //                m_canind = (UInt32)comboBox_CANIndex.SelectedIndex;
-                if (VCI_OpenDevice((uint)m_devtype, m_devind, 0) == 0)
+                if (USB_CAN_device.OpenDevice() == 0)
                 {
                     MessageBox.Show("打开设备失败,请检查设备类型和设备索引号是否正确", "错误",
                             MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -462,7 +458,7 @@ namespace WindowsApplication1
 
         public uint OpenDevice()
         {
-            return VCI_OpenDevice(m_devtype, m_devind, 0);
+            return VCI_OpenDevice(m_devtype, m_devind, 0);      // last parameter is currently always 0
         }
 
         public uint OpenCan()
