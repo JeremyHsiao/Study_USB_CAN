@@ -112,15 +112,7 @@ namespace WindowsApplication1
         static extern UInt32 VCI_ClearBuffer(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
 
         [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_StartCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_ResetCAN(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
-
-        [DllImport("controlcan.dll")]
         static extern UInt32 VCI_Transmit(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pSend, UInt32 Len);
-
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_Receive(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pReceive, UInt32 Len, Int32 WaitTime);
         
         /*------------函数描述结束---------------------------------*/
 
@@ -227,7 +219,7 @@ namespace WindowsApplication1
         {
             UInt32 res = new UInt32();
 
-            res = VCI_Receive((uint)m_devtype, m_devind, m_canind_dst, ref m_recobj[0],1000, 100);
+            res = USB_CAN_device.Receive(m_canind_dst, ref m_recobj[0]);
 
             /////////////////////////////////////
             //IntPtr[] ptArray = new IntPtr[1];
@@ -404,16 +396,16 @@ namespace WindowsApplication1
         static extern UInt32 VCI_FindUsbDevice(ref VCI_BOARD_INFO1 pInfo);
         /*------------函数描述结束---------------------------------*/
 
+        public const uint VCI_OBJECT_LENGTH = 1000;
+        public const int VCI_RECEIVE_WAIT_TIME = 100;
+
         uint m_devtype = (uint)USB_DEVICE_ID.DEV_USBCAN2;
         uint m_devind = 0;
         //uint m_canind = 0;
         //UInt32 m_canind_src = 0;
         //UInt32 m_canind_dst = 1;
         VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
-
-        VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[1000];
-
-        UInt32[] m_arrdevtype = new UInt32[20];
+        VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[VCI_OBJECT_LENGTH];
 
         public void Config_CAN_Device(USB_DEVICE_ID dev_id, uint dev_index)
         {
@@ -464,7 +456,12 @@ namespace WindowsApplication1
 
         public uint ResetCAN(uint can_index)
         {
-            return VCI_ResetCAN((uint)m_devtype, m_devind, can_index);
+            return VCI_ResetCAN(m_devtype, m_devind, can_index);
+        }
+
+        public uint Receive(uint can_index, ref VCI_CAN_OBJ obj_ref,  uint obj_length = VCI_OBJECT_LENGTH, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
+        {
+            return VCI_Receive(m_devtype, m_devind, can_index, ref obj_ref, obj_length, rec_wait_time);
         }
     }
 }
