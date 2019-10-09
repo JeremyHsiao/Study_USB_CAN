@@ -122,14 +122,6 @@ namespace WindowsApplication1
         [DllImport("controlcan.dll")]
         static extern UInt32 VCI_Receive(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pReceive, UInt32 Len, Int32 WaitTime);
         
-        /*------------其他函数描述---------------------------------*/
-
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_ConnectDevice(UInt32 DevType,UInt32 DevIndex);
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_UsbDeviceReset(UInt32 DevType,UInt32 DevIndex,UInt32 Reserved);
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_FindUsbDevice(ref VCI_BOARD_INFO1 pInfo);
         /*------------函数描述结束---------------------------------*/
 
         USB_DEVICE_ID m_devtype = USB_DEVICE_ID.DEV_USBCAN2;
@@ -303,16 +295,16 @@ namespace WindowsApplication1
         {
             if (m_bOpen == 0)
                 return;
-            VCI_StartCAN((uint)m_devtype, m_devind, m_canind_src);
-            VCI_StartCAN((uint)m_devtype, m_devind, m_canind_dst);
+            USB_CAN_device.StartCAN(m_canind_src);
+            USB_CAN_device.StartCAN(m_canind_dst);
         }
 
         private void button_StopCAN_Click(object sender, EventArgs e)
         {
             if (m_bOpen == 0)
                 return;
-            VCI_ResetCAN((uint)m_devtype, m_devind, m_canind_src);
-            VCI_ResetCAN((uint)m_devtype, m_devind, m_canind_dst);
+            USB_CAN_device.ResetCAN(m_canind_src);
+            USB_CAN_device.ResetCAN(m_canind_dst);
         }
 
         unsafe private void button_Send_Click(object sender, EventArgs e)
@@ -459,15 +451,20 @@ namespace WindowsApplication1
             return VCI_OpenDevice(m_devtype, m_devind, 0);      // last parameter is currently always 0
         }
 
-        //public uint OpenCAN()
-        //{
-            //return VCI_StartCAN(m_devtype, m_devind, m_canind);
-        //}
-
         public uint InitCAN(uint can_index)
         {
             //m_canind = can_index;
             return VCI_InitCAN(m_devtype, m_devind, can_index, ref config);
+        }
+
+        public uint StartCAN(uint can_index)
+        {
+            return VCI_StartCAN(m_devtype, m_devind, can_index);
+        }
+
+        public uint ResetCAN(uint can_index)
+        {
+            return VCI_ResetCAN((uint)m_devtype, m_devind, can_index);
         }
     }
 }
