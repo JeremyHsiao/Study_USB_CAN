@@ -386,7 +386,7 @@ namespace WindowsApplication1
         static extern UInt32 VCI_FindUsbDevice(ref VCI_BOARD_INFO1 pInfo);
         /*------------函数描述结束---------------------------------*/
 
-        public const uint VCI_OBJECT_LENGTH = 1000;
+        public const uint VCI_MAX_OBJECT_LENGTH = 10000;
         public const int VCI_RECEIVE_WAIT_TIME = 100;
 
         uint m_devtype = (uint)USB_DEVICE_ID.DEV_USBCAN2;
@@ -395,7 +395,7 @@ namespace WindowsApplication1
         //UInt32 m_canind_src = 0;
         //UInt32 m_canind_dst = 1;
         VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
-        VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[VCI_OBJECT_LENGTH];
+        VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[VCI_MAX_OBJECT_LENGTH];
 
         public void Config_CAN_Device(USB_DEVICE_ID dev_id, uint dev_index)
         {
@@ -449,9 +449,26 @@ namespace WindowsApplication1
             return VCI_ResetCAN(m_devtype, m_devind, can_index);
         }
 
-        public uint Receive(uint can_index, ref VCI_CAN_OBJ obj_ref,  uint obj_length = VCI_OBJECT_LENGTH, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
+        public uint Receive(uint can_index, ref VCI_CAN_OBJ obj_ref,  uint obj_length = VCI_MAX_OBJECT_LENGTH, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
         {
             return VCI_Receive(m_devtype, m_devind, can_index, ref obj_ref, obj_length, rec_wait_time);
+        }
+
+        public uint Receive(uint can_index, ref List<VCI_CAN_OBJ> obj_ref_list, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
+        {
+            VCI_CAN_OBJ[] obj_ref_array = new VCI_CAN_OBJ[VCI_MAX_OBJECT_LENGTH];
+            uint ret_value = VCI_Receive(m_devtype, m_devind, can_index, ref obj_ref_array[0], VCI_MAX_OBJECT_LENGTH, rec_wait_time);
+
+            obj_ref_list.Clear();
+            if (ret_value == 0xFFFFFFFF)
+            {
+                return ret_value;
+            }
+            for(int index=0; index< ret_value; index++)
+            {
+                obj_ref_list.Add(obj_ref_array[index]);
+            }
+            return ret_value;
         }
 
         public uint Transmit(uint can_index, ref VCI_CAN_OBJ obj_ref, uint obj_length)
