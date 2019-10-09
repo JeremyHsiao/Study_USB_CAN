@@ -93,29 +93,6 @@ namespace WindowsApplication1
 {
     public partial class Form1 : Form
     {
-        const int DEV_USBCAN = 3;
-        const int DEV_USBCAN2 = 4;
-         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="DeviceType"></param>
-        /// <param name="DeviceInd"></param>
-        /// <param name="Reserved"></param>
-        /// <returns></returns>
-        /*------------兼容ZLG的函数描述---------------------------------*/
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_ReadBoardInfo(UInt32 DeviceType, UInt32 DeviceInd, ref VCI_BOARD_INFO pInfo);
-
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_GetReceiveNum(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_ClearBuffer(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd);
-
-        [DllImport("controlcan.dll")]
-        static extern UInt32 VCI_Transmit(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pSend, UInt32 Len);
-        
-        /*------------函数描述结束---------------------------------*/
-
         USB_DEVICE_ID m_devtype = USB_DEVICE_ID.DEV_USBCAN2;
 
         UInt32 m_bOpen = 0;
