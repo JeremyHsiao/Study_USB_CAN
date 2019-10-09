@@ -304,6 +304,7 @@ namespace WindowsApplication1
             if(m_bOpen==0)
                 return;
 
+            List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
             VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
             //sendobj.Init();
             sendobj.RemoteFlag = (byte)comboBox_FrameFormat.SelectedIndex;
@@ -330,7 +331,13 @@ namespace WindowsApplication1
             if (i++ < len - 1)
                 sendobj.Data[7] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
 
-            if(VCI_Transmit((uint)m_devtype,m_devind,m_canind_src,ref sendobj,1)==0)
+            sendobj_list.Add(sendobj);
+            sendobj.Data[7] ^= 0xff;        // for testing multiple sendout_obj
+            sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
+            VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
+            uint sendout_obj_len = (uint) sendobj_list.Count;
+
+            if (USB_CAN_device.Transmit(m_canind_src, ref sendout_obj[0], sendout_obj_len) == 0)
             {
                 MessageBox.Show("发送失败", "错误",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -462,6 +469,11 @@ namespace WindowsApplication1
         public uint Receive(uint can_index, ref VCI_CAN_OBJ obj_ref,  uint obj_length = VCI_OBJECT_LENGTH, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
         {
             return VCI_Receive(m_devtype, m_devind, can_index, ref obj_ref, obj_length, rec_wait_time);
+        }
+
+        public uint Transmit(uint can_index, ref VCI_CAN_OBJ obj_ref, uint obj_length)
+        {
+            return VCI_Transmit((uint)m_devtype, m_devind, can_index, ref obj_ref, obj_length);
         }
     }
 }
