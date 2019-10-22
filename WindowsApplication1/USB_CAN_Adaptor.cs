@@ -235,5 +235,28 @@ namespace USB_CAN_ADAPTOR_LIB
             uint obj_ref_len = (uint)obj_ref_list.Count;
             return Transmit(can_index, ref obj_ref_array[0], obj_ref_len);
         }
+
+        public List<String> FindUsbDevice()
+        {
+            List<String> ret_device_list = new List<String>();
+            String ProductSn;
+            VCI_BOARD_INFO1 vbi_1 = new VCI_BOARD_INFO1();
+            uint num = VCI_FindUsbDevice(ref vbi_1);
+            int serial_index = 0;
+            for (uint i = 0; i < num; i++)
+            {
+                ProductSn = "CAN-";
+                for (int j = 0; j<4; j++)
+                {
+                    ProductSn += Convert.ToChar(vbi_1.str_Usb_Serial[serial_index]);
+                    serial_index++;
+                }
+               ret_device_list.Add(ProductSn);
+
+//                VCI_BOARD_INFO vbi = new VCI_BOARD_INFO();
+//                uint dwRel = VCI_ReadBoardInfo((uint)USB_DEVICE_ID.DEV_USBCAN2, i, ref vbi);
+            }
+            return ret_device_list;
+        }
     }
 }
