@@ -95,18 +95,18 @@
             this.comboBox_devtype.Items.AddRange(new object[] {
             "3",
             "4"});
-            this.comboBox_devtype.Location = new System.Drawing.Point(51, 19);
+            this.comboBox_devtype.Location = new System.Drawing.Point(51, 23);
             this.comboBox_devtype.MaxDropDownItems = 15;
             this.comboBox_devtype.Name = "comboBox_devtype";
-            this.comboBox_devtype.Size = new System.Drawing.Size(121, 20);
+            this.comboBox_devtype.Size = new System.Drawing.Size(105, 20);
             this.comboBox_devtype.TabIndex = 5;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(10, 23);
+            this.label14.Location = new System.Drawing.Point(13, 27);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(35, 12);
+            this.label14.Size = new System.Drawing.Size(32, 12);
             this.label14.TabIndex = 4;
             this.label14.Text = "类型:";
             // 
@@ -135,14 +135,14 @@
             // 
             this.textBox_Time1.Location = new System.Drawing.Point(218, 46);
             this.textBox_Time1.Name = "textBox_Time1";
-            this.textBox_Time1.Size = new System.Drawing.Size(28, 21);
+            this.textBox_Time1.Size = new System.Drawing.Size(28, 22);
             this.textBox_Time1.TabIndex = 1;
             // 
             // textBox_AccMask
             // 
             this.textBox_AccMask.Location = new System.Drawing.Point(74, 46);
             this.textBox_AccMask.Name = "textBox_AccMask";
-            this.textBox_AccMask.Size = new System.Drawing.Size(70, 21);
+            this.textBox_AccMask.Size = new System.Drawing.Size(70, 22);
             this.textBox_AccMask.TabIndex = 1;
             // 
             // label6
@@ -150,7 +150,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(152, 52);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.Size = new System.Drawing.Size(62, 12);
             this.label6.TabIndex = 0;
             this.label6.Text = "定时器1:0x";
             // 
@@ -184,7 +184,7 @@
             // 
             this.textBox_Time0.Location = new System.Drawing.Point(218, 19);
             this.textBox_Time0.Name = "textBox_Time0";
-            this.textBox_Time0.Size = new System.Drawing.Size(28, 21);
+            this.textBox_Time0.Size = new System.Drawing.Size(28, 22);
             this.textBox_Time0.TabIndex = 1;
             // 
             // label8
@@ -192,7 +192,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(280, 52);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 12);
+            this.label8.Size = new System.Drawing.Size(32, 12);
             this.label8.TabIndex = 0;
             this.label8.Text = "模式:";
             // 
@@ -201,7 +201,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(256, 25);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 12);
+            this.label7.Size = new System.Drawing.Size(56, 12);
             this.label7.TabIndex = 0;
             this.label7.Text = "滤波方式:";
             // 
@@ -210,7 +210,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(13, 52);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 12);
+            this.label5.Size = new System.Drawing.Size(56, 12);
             this.label5.TabIndex = 0;
             this.label5.Text = "屏蔽码:0x";
             // 
@@ -219,7 +219,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(152, 25);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.Size = new System.Drawing.Size(62, 12);
             this.label4.TabIndex = 0;
             this.label4.Text = "定时器0:0x";
             // 
@@ -227,7 +227,7 @@
             // 
             this.textBox_AccCode.Location = new System.Drawing.Point(74, 19);
             this.textBox_AccCode.Name = "textBox_AccCode";
-            this.textBox_AccCode.Size = new System.Drawing.Size(70, 21);
+            this.textBox_AccCode.Size = new System.Drawing.Size(70, 22);
             this.textBox_AccCode.TabIndex = 1;
             // 
             // label3
@@ -235,7 +235,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 25);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.Size = new System.Drawing.Size(56, 12);
             this.label3.TabIndex = 0;
             this.label3.Text = "验收码:0x";
             // 
@@ -260,9 +260,9 @@
             "1",
             "2",
             "3"});
-            this.comboBox_DevIndex.Location = new System.Drawing.Point(238, 23);
+            this.comboBox_DevIndex.Location = new System.Drawing.Point(210, 23);
             this.comboBox_DevIndex.Name = "comboBox_DevIndex";
-            this.comboBox_DevIndex.Size = new System.Drawing.Size(41, 20);
+            this.comboBox_DevIndex.Size = new System.Drawing.Size(81, 20);
             this.comboBox_DevIndex.TabIndex = 1;
             // 
             // label2
@@ -270,16 +270,16 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(297, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.Size = new System.Drawing.Size(68, 12);
             this.label2.TabIndex = 0;
             this.label2.Text = "第几路CAN:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(185, 25);
+            this.label1.Location = new System.Drawing.Point(162, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 12);
+            this.label1.Size = new System.Drawing.Size(44, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "索引号:";
             // 
@@ -370,7 +370,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(147, 23);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(47, 12);
+            this.label11.Size = new System.Drawing.Size(44, 12);
             this.label11.TabIndex = 0;
             this.label11.Text = "帧格式:";
             // 
@@ -379,7 +379,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(20, 24);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(47, 12);
+            this.label10.Size = new System.Drawing.Size(44, 12);
             this.label10.TabIndex = 0;
             this.label10.Text = "帧类型:";
             // 
@@ -387,7 +387,7 @@
             // 
             this.textBox_Data.Location = new System.Drawing.Point(56, 48);
             this.textBox_Data.Name = "textBox_Data";
-            this.textBox_Data.Size = new System.Drawing.Size(251, 21);
+            this.textBox_Data.Size = new System.Drawing.Size(251, 22);
             this.textBox_Data.TabIndex = 1;
             // 
             // label13
@@ -395,7 +395,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(19, 54);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(35, 12);
+            this.label13.Size = new System.Drawing.Size(32, 12);
             this.label13.TabIndex = 0;
             this.label13.Text = "数据:";
             // 
@@ -403,7 +403,7 @@
             // 
             this.textBox_ID.Location = new System.Drawing.Point(322, 18);
             this.textBox_ID.Name = "textBox_ID";
-            this.textBox_ID.Size = new System.Drawing.Size(70, 21);
+            this.textBox_ID.Size = new System.Drawing.Size(70, 22);
             this.textBox_ID.TabIndex = 1;
             // 
             // label12
@@ -411,7 +411,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(272, 24);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(47, 12);
+            this.label12.Size = new System.Drawing.Size(44, 12);
             this.label12.TabIndex = 0;
             this.label12.Text = "帧ID:0x";
             // 
@@ -462,8 +462,8 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "USB CAN Demo(创芯光电科技有限公司)";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

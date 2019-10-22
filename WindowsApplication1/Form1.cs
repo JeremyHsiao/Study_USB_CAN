@@ -62,6 +62,16 @@ namespace WindowsApplication1
             comboBox_devtype.SelectedIndex = 1;
             comboBox_devtype.MaxDropDownItems = comboBox_devtype.Items.Count;
 
+            //
+            List<String> dev_list = USB_CAN_device.FindUsbDevice();
+            comboBox_DevIndex.Items.Clear();
+            foreach (String dev_str in dev_list)
+            {
+                comboBox_DevIndex.Items.Add(dev_str);
+            }
+            comboBox_DevIndex.SelectedIndex = 0;
+            comboBox_DevIndex.MaxDropDownItems = comboBox_devtype.Items.Count;
+
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -85,10 +95,8 @@ namespace WindowsApplication1
             else
             {
                 m_devtype = m_arrdevtype[comboBox_devtype.SelectedIndex];
-
                 m_devind=(uint)comboBox_DevIndex.SelectedIndex;
-                m_devind = 0;
-                //                m_canind = (UInt32)comboBox_CANIndex.SelectedIndex;
+                USB_CAN_device.Config_CAN_Device(m_devtype, m_devind);
                 if (USB_CAN_device.OpenDevice() == 0)
                 {
                     MessageBox.Show("打开设备失败,请检查设备类型和设备索引号是否正确", "错误",
