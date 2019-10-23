@@ -90,9 +90,9 @@ namespace WindowsApplication1
         {
             if (m_bOpen==1)
             {
-                // VCI_CloseDevice(m_devtype, m_devind);
-                USB_CAN_device.Config_CAN_Device(m_devtype, m_devind);
-                USB_CAN_device.OpenDevice();
+                USB_CAN_device.CloseDevice();
+                //USB_CAN_device.Config_CAN_Device(m_devtype, m_devind);
+                //USB_CAN_device.OpenDevice();
                 m_bOpen = 0;
             }
             else
