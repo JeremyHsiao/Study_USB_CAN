@@ -242,8 +242,8 @@ namespace WindowsApplication1
                 sendobj.Data[7] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
 
             sendobj_list.Add(sendobj);
-            sendobj.Data[7] ^= 0xff;        // for testing multiple sendout_obj
-            sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
+            //sendobj.Data[7] ^= 0xff;        // for testing multiple sendout_obj
+            //sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
             VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
             uint sendout_obj_len = (uint) sendobj_list.Count;
             if (USB_CAN_device.Transmit(m_canind_src, ref sendout_obj[0], sendout_obj_len) == 0)
@@ -251,13 +251,13 @@ namespace WindowsApplication1
                 MessageBox.Show("发送失败", "错误",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            sendobj.Data[6] ^= 0xff;        // for testing multiple sendout_obj
-            sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
-            if (USB_CAN_device.Transmit(m_canind_src, ref sendobj_list) == 0)
-            {
-                MessageBox.Show("发送失败", "错误",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
+            //sendobj.Data[6] ^= 0xff;        // for testing multiple sendout_obj
+            //sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
+            //if (USB_CAN_device.Transmit(m_canind_src, ref sendobj_list) == 0)
+            //{
+            //    MessageBox.Show("发送失败", "错误",
+            //            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //}
         }
 
         private void button_Clear_Click(object sender, EventArgs e)
