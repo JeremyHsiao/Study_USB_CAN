@@ -69,8 +69,11 @@ namespace WindowsApplication1
             {
                 comboBox_DevIndex.Items.Add(dev_str);
             }
-            comboBox_DevIndex.SelectedIndex = 0;
-            comboBox_DevIndex.MaxDropDownItems = comboBox_devtype.Items.Count;
+            if (comboBox_DevIndex.Items.Count > 0)
+            {
+                comboBox_DevIndex.SelectedIndex = 0;
+                comboBox_DevIndex.MaxDropDownItems = comboBox_devtype.Items.Count;
+            }
 
         }
 
