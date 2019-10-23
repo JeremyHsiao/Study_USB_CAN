@@ -204,8 +204,9 @@ namespace WindowsApplication1
         {
             if (m_bOpen == 0)
                 return;
-            USB_CAN_device.ResetCAN(m_canind_src);
-            USB_CAN_device.ResetCAN(m_canind_dst);
+            uint stop_can_status_src, stop_can_status_dst;
+            stop_can_status_src = USB_CAN_device.ResetCAN(m_canind_src);
+            stop_can_status_dst = USB_CAN_device.ResetCAN(m_canind_dst);
         }
 
         unsafe private void button_Send_Click(object sender, EventArgs e)
