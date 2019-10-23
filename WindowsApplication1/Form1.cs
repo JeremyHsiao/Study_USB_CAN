@@ -115,6 +115,16 @@ namespace WindowsApplication1
                 Byte Filter = (Byte)(comboBox_Filter.SelectedIndex+1);
                 Byte Mode = (Byte)comboBox_Mode.SelectedIndex;
                 USB_CAN_device.Config_CAN_Param(AccCode, AccMask, Timing0, Timing1, Filter, Mode);
+                if(comboBox_CANIndex.SelectedIndex==0)
+                {
+                    m_canind_src = 0;
+                    m_canind_dst = 1;
+                }
+                else
+                {
+                    m_canind_src = 1;
+                    m_canind_dst = 0;
+                }
                 uint init_status_src, init_status_dst;
                 init_status_src = USB_CAN_device.InitCAN(m_canind_src);
                 init_status_dst = USB_CAN_device.InitCAN(m_canind_dst);

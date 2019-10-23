@@ -270,9 +270,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(297, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 12);
+            this.label2.Size = new System.Drawing.Size(56, 12);
             this.label2.TabIndex = 0;
-            this.label2.Text = "第几路CAN:";
+            this.label2.Text = "輸出CAN:";
             // 
             // label1
             // 
