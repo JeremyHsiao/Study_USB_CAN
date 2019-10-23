@@ -39,7 +39,7 @@ namespace WindowsApplication1
             textBox_Time0.Text = "00";
             textBox_Time1.Text = "1C";
             comboBox_Filter.SelectedIndex = 0;              //接收所有类型
-            comboBox_Mode.SelectedIndex = 2;                //还回测试模式
+            comboBox_Mode.SelectedIndex = 0;                // Normal mode
             comboBox_FrameFormat.SelectedIndex = 0;
             comboBox_FrameType.SelectedIndex = 0;
             textBox_ID.Text = "00000123";
@@ -115,8 +115,9 @@ namespace WindowsApplication1
                 Byte Filter = (Byte)(comboBox_Filter.SelectedIndex+1);
                 Byte Mode = (Byte)comboBox_Mode.SelectedIndex;
                 USB_CAN_device.Config_CAN_Param(AccCode, AccMask, Timing0, Timing1, Filter, Mode);
-                USB_CAN_device.InitCAN(m_canind_src);
-                USB_CAN_device.InitCAN(m_canind_dst);
+                uint init_status_src, init_status_dst;
+                init_status_src = USB_CAN_device.InitCAN(m_canind_src);
+                init_status_dst = USB_CAN_device.InitCAN(m_canind_dst);
             }
             buttonConnect.Text = m_bOpen==1?"断开":"连接";
             timer_rec.Enabled = m_bOpen==1?true:false;
@@ -194,8 +195,9 @@ namespace WindowsApplication1
         {
             if (m_bOpen == 0)
                 return;
-            USB_CAN_device.StartCAN(m_canind_src);
-            USB_CAN_device.StartCAN(m_canind_dst);
+            uint start_can_status_src, start_can_status_dst;
+            start_can_status_src = USB_CAN_device.StartCAN(m_canind_src);
+            start_can_status_dst = USB_CAN_device.StartCAN(m_canind_dst);
         }
 
         private void button_StopCAN_Click(object sender, EventArgs e)
