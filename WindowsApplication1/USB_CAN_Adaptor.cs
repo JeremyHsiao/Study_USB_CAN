@@ -149,6 +149,7 @@ namespace USB_CAN_ADAPTOR_LIB
         //UInt32 m_canind_dst = 1;
         VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[VCI_MAX_OBJECT_LENGTH];
+        VCI_BOARD_INFO current_open_board_info = new VCI_BOARD_INFO();
 
         public void Config_CAN_Device(USB_DEVICE_ID dev_id, uint dev_index)
         {
@@ -183,7 +184,12 @@ namespace USB_CAN_ADAPTOR_LIB
 
         public uint OpenDevice()
         {
-            return VCI_OpenDevice(m_devtype, m_devind, 0);      // last parameter is currently always 0
+            uint bRet = VCI_OpenDevice(m_devtype, m_devind, 0);      // last parameter is currently always 0
+            if (bRet != 0)
+            {
+                uint dwRel = VCI_ReadBoardInfo(m_devtype, m_devind, ref current_open_board_info);
+            }
+            return bRet;
         }
 
         public uint InitCAN(uint can_index)
@@ -252,9 +258,6 @@ namespace USB_CAN_ADAPTOR_LIB
                     serial_index++;
                 }
                ret_device_list.Add(ProductSn);
-
-//                VCI_BOARD_INFO vbi = new VCI_BOARD_INFO();
-//                uint dwRel = VCI_ReadBoardInfo((uint)USB_DEVICE_ID.DEV_USBCAN2, i, ref vbi);
             }
             return ret_device_list;
         }
