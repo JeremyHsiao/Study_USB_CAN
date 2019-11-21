@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISO_TP.cs" />
     <Compile Include="USB_CAN_Adaptor.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
