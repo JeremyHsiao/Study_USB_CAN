@@ -23,6 +23,8 @@ namespace WindowsApplication1
 
         USB_DEVICE_ID[] m_arrdevtype = new USB_DEVICE_ID[20];
 
+        public List<String> bms_sig_name = new List<String>();
+
         public USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
 
         public Form1()
@@ -75,7 +77,67 @@ namespace WindowsApplication1
                 comboBox_DevIndex.MaxDropDownItems = comboBox_devtype.Items.Count;
             }
 
+            bms_sig_name.Add("Battery Voltage");
+            bms_sig_name.Add("Battery Status");
+            bms_sig_name.Add("Battery Current");
+            bms_sig_name.Add("Failure Level");
+            bms_sig_name.Add("Battery SOC");
+            bms_sig_name.Add("Cell 01 Voltage");
+            bms_sig_name.Add("Cell 02 Voltage");
+            bms_sig_name.Add("Cell 03 Voltage");
+            bms_sig_name.Add("Cell 04 Voltage");
+            bms_sig_name.Add("Cell 05 Voltage");
+            bms_sig_name.Add("Cell 06 Voltage");
+            bms_sig_name.Add("Cell 07 Voltage");
+            bms_sig_name.Add("Cell 08 Voltage");
+            bms_sig_name.Add("Cell 09 Voltage");
+            bms_sig_name.Add("Cell 10 Voltage");
+            bms_sig_name.Add("Cell 11 Voltage");
+            bms_sig_name.Add("Cell 12 Voltage");
+            bms_sig_name.Add("Cell 13 Voltage");
+            bms_sig_name.Add("Cell 14 Voltage");
+            bms_sig_name.Add("Cell 15 Voltage");
+            bms_sig_name.Add("Cell 16 Voltage");
+            bms_sig_name.Add("Cell 17 Voltage");
+            bms_sig_name.Add("Cell 18 Voltage");
+            bms_sig_name.Add("Cell 19 Voltage");
+            bms_sig_name.Add("Cell 20 Voltage");
+            bms_sig_name.Add("Cell 21 Voltage");
+            bms_sig_name.Add("Cell 22 Voltage");
+            bms_sig_name.Add("Cell 23 Voltage");
+            bms_sig_name.Add("Cell 24 Voltage");
+            bms_sig_name.Add("Cell 25 Voltage");
+            bms_sig_name.Add("Cell 26 Voltage");
+            bms_sig_name.Add("Discharge Rolling Count");
+            bms_sig_name.Add("Cell Temperature 1");
+            bms_sig_name.Add("Cell Temperature 2");
+            bms_sig_name.Add("Cell Temperature 3");
+            bms_sig_name.Add("Cell Temperature 4");
+            bms_sig_name.Add("Charge Voltage Count");
+            bms_sig_name.Add("Charge Current Count");
+            bms_sig_name.Add("Charge Full Count");
+            bms_sig_name.Add("Charge Rolling Count");
+            bms_sig_name.Add("Over Voltage Protection");
+            bms_sig_name.Add("Under Voltage Protection");
+            bms_sig_name.Add("Over Temperature Protection Charge");
+            bms_sig_name.Add("Under Temperature Protection Charge");
+            bms_sig_name.Add("Over Temperature Protection Discharge");
+            bms_sig_name.Add("Under Temperature Protection Discharge");
+            bms_sig_name.Add("Over Current Protection Charge");
+            bms_sig_name.Add("Under Current Protection Charge");
+            bms_sig_name.Add("DSG MOS Status");
+            bms_sig_name.Add("CHG MOS Status");
+
+            int index = 0;
+            foreach (String name in bms_sig_name)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                row.HeaderCell.Value = name;
+                dGV_BMS_01.Rows.Add(row);
+                dGV_BMS_01.Rows[index].Cells[0].Value = 0;
+            }
         }
+
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {

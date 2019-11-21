@@ -66,10 +66,13 @@
             this.listBox_Info = new System.Windows.Forms.ListBox();
             this.timer_rec = new System.Windows.Forms.Timer(this.components);
             this.button_Clear = new System.Windows.Forms.Button();
+            this.dGV_BMS_01 = new System.Windows.Forms.DataGridView();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dGV_BMS_01)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -448,11 +451,38 @@
             this.button_Clear.UseVisualStyleBackColor = true;
             this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
             // 
+            // dGV_BMS_01
+            // 
+            this.dGV_BMS_01.AllowUserToAddRows = false;
+            this.dGV_BMS_01.AllowUserToDeleteRows = false;
+            this.dGV_BMS_01.AllowUserToResizeRows = false;
+            this.dGV_BMS_01.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dGV_BMS_01.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dGV_BMS_01.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dGV_BMS_01.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.value});
+            this.dGV_BMS_01.Location = new System.Drawing.Point(548, 12);
+            this.dGV_BMS_01.Name = "dGV_BMS_01";
+            this.dGV_BMS_01.ReadOnly = true;
+            this.dGV_BMS_01.RowHeadersWidth = 260;
+            this.dGV_BMS_01.RowTemplate.Height = 24;
+            this.dGV_BMS_01.Size = new System.Drawing.Size(332, 437);
+            this.dGV_BMS_01.TabIndex = 9;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Value";
+            this.value.Name = "value";
+            this.value.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 461);
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(888, 461);
+            this.Controls.Add(this.dGV_BMS_01);
             this.Controls.Add(this.button_Clear);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.buttonConnect);
@@ -471,6 +501,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dGV_BMS_01)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -514,6 +545,8 @@
         private System.Windows.Forms.ComboBox comboBox_devtype;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button button_Clear;
+        private System.Windows.Forms.DataGridView dGV_BMS_01;
+        private System.Windows.Forms.DataGridViewTextBoxColumn value;
     }
 }
 
